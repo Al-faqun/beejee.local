@@ -1,0 +1,8 @@
+.idea/
+vendor/
+*.log
+public/test.php
+public/upload.php
+**/cache/
+
+composer.lock
