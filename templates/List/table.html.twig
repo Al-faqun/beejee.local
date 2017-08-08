@@ -1,0 +1,34 @@
+{% for task in tasks %}
+	<div class="task ">
+		<div class="row">
+			<div class="col-md-4 col-lg-4">
+				<img src="{{ task.imgPathRel }}" class="img-rounded" alt="Картинка" width="340" height="260">
+			</div>
+			<div class="col-md-8 col-lg-8 align-middle" >
+				<p>Имя пользователя: {{ task.username }}</p>
+				<p>Электронная почта: {{ task.email }}</p>
+				<div id="response"></div>
+				<div class="clear"></div>
+				<p>Текст задачи: {{ task.text }}</p>
+				<p>Статус задачи: {{ task.fulfilled }}</p>
+				{% if is_admin == true %}
+					<form action="edit.php" method="post">
+						<div class="form-group">
+							<label for="status">Выполнено</label>
+							<input type="checkbox" id = "status" name="fulfilled" value="1">
+						</div>
+						<div class="form-group">
+							<input type="hidden" name="task_id" value="{{ task.id }}">
+							<button type="submit" class="btn btn-default">Редактировать</button>
+						</div>
+					</form>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endfor %}
+<ul class="pagination">
+	{% for query in queries %}
+		<li><a href="?{{ query }}" class="inline-block"> {{ loop.index }} </a></li>
+	{% endfor %}
+</ul>

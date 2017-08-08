@@ -1,0 +1,15 @@
+<form action="/addNewTask.php" method="post">
+	<div class="form-group col-sm-6">
+		<label for="email" title="Валидный адрес почты">Электронная почта:</label>
+		<input type="email" class="form-control" name="email" id="email" value="{{ databack['email'] ?? '' }}">
+	</div>
+	<div class="form-group col-sm-6">
+		<label for="task_text" title="Минимум один, максимум 2000 знаков">Текст:</label>
+		<textarea cols="80" rows="10" class="form-control" name="task_text" id="task_text">{{ databack['task_text'] ?? '' }}</textarea>
+	</div>
+	<div class="form-group col-sm-6 pull-right">
+		<input type="hidden" name="new_task_sent" value="1">
+		<button type="submit" class="btn btn-default">Отослать задачу</button>
+	</div>
+</form>
+

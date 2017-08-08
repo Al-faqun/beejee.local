@@ -3,6 +3,7 @@ vendor/
 *.log
 public/test.php
 public/upload.php
+public/dayside
 **/cache/
 
 composer.lock

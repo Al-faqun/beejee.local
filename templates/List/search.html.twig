@@ -1,0 +1,24 @@
+<div class="container  search_box">
+	<div class="float-right">
+		<form action="" method="get" class="form-inline">
+			<div class="form-group ">
+				<label for="sort_by">Сортировать по: </label>
+				<select name="sort_by" class="form-control">
+					<option value="username">Имя пользователя</option>
+					<option value="e-mail">Почта</option>
+					<option value="fulfilled">Статус</option>
+				</select>
+			</div>
+			<div class="form-group " >
+				<label for="asc">По возр.</label>
+				<input type="radio" name="order" id="asc" value="asc" checked="checked" class="form-control">
+			</div>
+			<div class="form-group ">
+				<label for="desc">По убыв.</label>
+				<input type="radio" name="order" id="desc" value="desc" class="form-control">
+			</div>
+			<input type="submit" class="btn btn-info" value="Сортировать">
+			
+		</form>
+	</div>
+</div>

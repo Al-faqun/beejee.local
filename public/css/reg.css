@@ -1,0 +1,16 @@
+body {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.error {
+    color: #ff2000;
+}
+
+.message {
+    color: #2f58ff;
+
+}
+
+nav {
+    font-size: 1.1em;
+}
