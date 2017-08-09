@@ -47,3 +47,13 @@ select.form-control {
 .search_box {
     color: #4446d0;
 }
+
+/* изменение цвета навбара при наведении */
+ul.nav.navbar-nav  li:hover {
+    background-color: #dddddd;
+    color: #99defd;
+}
+
+ul.nav.navbar-nav  li:hover a{
+    color: #567bff;
+}
