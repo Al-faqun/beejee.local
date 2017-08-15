@@ -1,15 +1,32 @@
-<form action="/addNewTask.php" method="post">
-	<div class="form-group col-sm-6">
+<form action="/addNewTask.php" method="post" id="upload_form">
+	<div class="form-group col-lg-5 col-md-5  ">
+		<label for="input" title="Изображение типа: jpg, png, gif">Добавьте изображение:</label>
+		<input type="file" id="file_input" name="image" title="Изображение типа: jpg, png, gif">
+		<img src="{{ databack['imageBase64'] ?? 'uploads/white.jpg' }}" id="img_canvas" width="320" height="240">
+		<textarea  id="imageblob" name="imageblob"></textarea>
+	</div>
+	<div class="form-group col-lg-7 col-md-7 ">
 		<label for="email" title="Валидный адрес почты">Электронная почта:</label>
-		<input type="email" class="form-control" name="email" id="email" value="{{ databack['email'] ?? '' }}">
+		<input type="email" class="form-control" name="email" id="email"  value="{{ databack['email'] ?? '' }}"
+		       title="Валидный адрес почты">
 	</div>
-	<div class="form-group col-sm-6">
+	<div class="form-group col-lg-7 col-md-7 ">
 		<label for="task_text" title="Минимум один, максимум 2000 знаков">Текст:</label>
-		<textarea cols="80" rows="10" class="form-control" name="task_text" id="task_text">{{ databack['task_text'] ?? '' }}</textarea>
+		<textarea cols="80" rows="10" class="form-control" name="task_text" id="task_text" title="Минимум один, максимум 2000 знаков">
+			{{ databack['task_text'] ?? '' }}
+		</textarea>
 	</div>
-	<div class="form-group col-sm-6 pull-right">
+	<div class="form-group col-lg-7 col-md-7 pull-right">
 		<input type="hidden" name="new_task_sent" value="1">
-		<button type="submit" class="btn btn-default">Отослать задачу</button>
+		<button type="button"
+		        onclick="previewTask(
+		            'preview_task', 'file_input', 'img_canvas', 'preview_img',
+		            'upload_form', 'email', 'task_text', 'imageblob'
+		            )">
+			Предпросмотр
+		</button>
+		<button type="button" onclick="upload('upload_form', 'file_input', 'img_canvas', 'imageblob')">Отослать</button>
 	</div>
 </form>
 
+<script src="js/upload.js"></script>

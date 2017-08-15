@@ -2,6 +2,8 @@
 namespace BeeJee\Input;
 
 
+use BeeJee\FileSystem;
+
 class NewTaskValidator
 {
     /**
@@ -31,11 +33,12 @@ class NewTaskValidator
      */
     public function checkInput($input, &$errors)
     {
+        //check
         $result = true;
         $email = $this->checkEmail($input);
         $taskText = $this->checkTaskText($input);
-        //$image = $this->checkImage($_FILES);
-        $image = 'somepic.jpg';
+        $image = $this->checkImage($input, 320, 240);
+        //if there are errors, save them
         if ($email === false) {
             $errors[] = 'Введен неправильный адрес почты. Исправьте!';
             $result = false;
@@ -49,17 +52,32 @@ class NewTaskValidator
             $errors[] = 'Попытка залить картинку с некорректными размерами. ';
             $result = false;
         }
-        
+        //if there are no errors
         if ($result !== false) {
-            $result = ['email' => $email, 'task_text' => $taskText, 'img_path_rel' => $image];
+            $result = ['email' => $email, 'task_text' => $taskText, 'imageBase64' => $image];
         }
         
         return $result;
     }
     
-    private function checkImage($input)
+    private function checkImage($input, $widthMax, $heightMax)
     {
-       //здесь должна быть валидация характеристик картинки
+        if (array_key_exists('imageblob', $input) AND is_string($input['imageblob'])
+            AND
+            array_key_exists('image', $input) AND is_string($input['image'])
+        ) {
+            $imageBase64 = $input['imageblob'];
+            $name = $input['image'];
+            $imageLoader = new ImageLoaderBase64(
+                array('image/jpeg', 'image/png', 'image/gif'),
+                array('jpg', 'jpeg', 'png', 'gif')
+            );
+            $check = $imageLoader->checkImage($imageBase64, $name, $widthMax, $heightMax);
+            if ($check === true) {
+                $result = $imageBase64;
+            } else $result = false;
+        } else $result = false;
+        return $result;
     }
     
     /**

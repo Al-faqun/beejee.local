@@ -7,3 +7,5 @@ public/dayside
 **/cache/
 bootstrap.php
 composer.lock
+public/uploads/*.*
+public/uploads

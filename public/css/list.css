@@ -11,6 +11,8 @@ nav {
     border-radius: 7px;
     background-color: white;
     margin-top: 2rem;
+    padding: 5px 5px 5px 5px;
+    word-wrap: break-word;
 }
 
 .task p {

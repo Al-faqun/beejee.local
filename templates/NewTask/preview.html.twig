@@ -1,0 +1,16 @@
+<div class="preview_task">
+	<div class="row">
+		<div class="col-md-4 col-lg-4">
+			<img src="" id="preview_img" class="img-rounded" alt="Картинка" width="340" height="260">
+		</div>
+		<div class="col-md-8 col-lg-8 align-middle" >
+			<p>Имя пользователя: {{ (authorized) ? username : 'Guest' }}</p>
+			<p>Электронная почта: %js_replace_email%</p>
+			<div id="response"></div>
+			<div class="clear"></div>
+			<p>Текст задачи: %js_replace_text%</p>
+			<p>Статус задачи: Не выполнено</p>
+			<button type="button" onclick="closePreview('preview_task', 'upload_form')">Закрыть предпросмотр</button>
+		</div>
+	</div>
+</div>

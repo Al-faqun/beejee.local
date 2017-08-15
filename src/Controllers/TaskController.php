@@ -12,6 +12,7 @@ namespace BeeJee\Controllers;
 use BeeJee\Database\TaskMapper;
 use BeeJee\Database\UserMapper;
 use BeeJee\FileSystem;
+use BeeJee\Input\ImageLoaderBase64;
 use BeeJee\Input\NewTaskValidator;
 use BeeJee\LoginManager;
 use BeeJee\Views\TaskView;
@@ -51,7 +52,7 @@ class TaskController extends PageController
         }
         
         $dataBack  = array();  // значения неправильных входных данных
-        
+        var_dump($_POST);
         //проверяем, были ли посланы данные формы
         if ($validator->dataSent($_POST)) {
             //проверяем, правильно ли они заполнены
@@ -60,7 +61,9 @@ class TaskController extends PageController
                 //если пользователь авторизован - используем его аккаунт, иначе аккаунт Гостя
                 $taskUsername = $authorized ? $usernameDisplayed : 'Guest';
                 $userID = $userMapper->getIdFromName($taskUsername);
-                
+                //сохраняем картинку
+                $public = FileSystem::append([$root, 'public']);
+                $data['img_path_rel'] = $this->saveImage($public, 'uploads', $data['imageBase64']);
                 //добавляем запись с расчитанными и проверенными параметрами
                 $taskMapper->addTask($userMapper, $userID, $data['email'], $data['task_text'], $data['img_path_rel']);
                 $this->redirect('list.php?taskAdded');
@@ -78,5 +81,18 @@ class TaskController extends PageController
             'authorized' => $authorized,
             'username'   => $usernameDisplayed
         ]);
+    }
+    
+    protected function saveImage($root, $dir, $imageBase64)
+    {
+        $imageLoader = new ImageLoaderBase64(
+            array('image/jpeg', 'image/png', 'image/gif'),
+            array('jpg', 'jpeg', 'png', 'gif')
+        );
+        $saveDir = FileSystem::append([$root, $dir]);
+        $fileName = $imageLoader->saveFile($imageBase64, 'png', $saveDir);
+        if ($fileName !== false) {
+            return $fileName;
+        } else throw new \Exception("Cannot save image at $saveDir");
     }
 }
