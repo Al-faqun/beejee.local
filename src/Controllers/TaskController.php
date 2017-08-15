@@ -20,23 +20,25 @@ use BeeJee\Views\TaskView;
 class TaskController extends PageController
 {
     private $root;
+    private $public;
     private $pdo;
     private $errors;
     
-    function __construct($root, $pdo)
+    function __construct($root, $public, $pdo)
     {
         parent::__construct();
         $this->root = $root;
+        $this->public = $public;
         $this->pdo = $pdo;
     }
     
     function start()
     {
         $this->execute();
-        $this->regPage($this->root, $this->pdo);
+        $this->regPage($this->root, $this->public, $this->pdo);
     }
     
-    protected function regPage($root, \PDO $pdo)
+    protected function regPage($root, $public, \PDO $pdo)
     {
         $userMapper = new UserMapper($pdo);
         $taskMapper = new TaskMapper($pdo);
@@ -62,7 +64,6 @@ class TaskController extends PageController
                 $taskUsername = $authorized ? $usernameDisplayed : 'Guest';
                 $userID = $userMapper->getIdFromName($taskUsername);
                 //сохраняем картинку
-                $public = FileSystem::append([$root, 'public']);
                 $data['img_path_rel'] = $this->saveImage($public, 'uploads', $data['imageBase64']);
                 //добавляем запись с расчитанными и проверенными параметрами
                 $taskMapper->addTask($userMapper, $userID, $data['email'], $data['task_text'], $data['img_path_rel']);
