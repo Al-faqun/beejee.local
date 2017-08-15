@@ -52,7 +52,7 @@ class TaskController extends PageController
         }
         
         $dataBack  = array();  // значения неправильных входных данных
-        var_dump($_POST);
+   
         //проверяем, были ли посланы данные формы
         if ($validator->dataSent($_POST)) {
             //проверяем, правильно ли они заполнены
