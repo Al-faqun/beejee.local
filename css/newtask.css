@@ -1,0 +1,68 @@
+body {
+    background-color: #9ddbfd;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.error {
+    color: #ff47ee;
+}
+
+.message {
+    color: #2f58ff;
+}
+
+.task_img_preview {
+    width: 320px;
+    height: 240px;
+}
+nav {
+    font-size: 1.1em;
+}
+
+/* изменение цвета навбара при наведении */
+ul.nav.navbar-nav  li:hover {
+    background-color: #dddddd;
+    color: #99defd;
+}
+
+ul.nav.navbar-nav  li:hover a{
+    color: #567bff;
+}
+
+#upload_form {
+    font-size: 1.5rem;
+}
+
+form img {
+    display: block;
+    margin-top: 10px;
+}
+
+#imageblob {
+    display: none;
+}
+.preview_task {
+    font-size: 1.5rem;
+    border-radius: 7px;
+    background-color: white;
+    margin-top: 2rem;
+    padding: 5px 5px 5px 5px;
+    word-wrap: break-word;
+    /*no display if js has not specified otherwise */
+    display: none;
+}
+
+.preview_task p {
+    font-size: 1.0em;
+    color: #393b9d;
+}
+
+.preview_task p:first-of-type {
+    margin-top: 10px;
+}
+
+.preview_task img {
+    padding: 5px 5px 5px 5px;
+
+}
+

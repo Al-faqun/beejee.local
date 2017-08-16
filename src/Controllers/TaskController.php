@@ -64,7 +64,7 @@ class TaskController extends PageController
                 $taskUsername = $authorized ? $usernameDisplayed : 'Guest';
                 $userID = $userMapper->getIdFromName($taskUsername);
                 //сохраняем картинку
-                $data['img_path_rel'] = $this->saveImage($public, 'uploads', $data['imageBase64']);
+                $data['img_path_rel'] = $this->saveImage($root, 'uploads', $data['imageBase64']);
                 //добавляем запись с расчитанными и проверенными параметрами
                 $taskMapper->addTask($userMapper, $userID, $data['email'], $data['task_text'], $data['img_path_rel']);
                 $this->redirect('list.php?taskAdded');
