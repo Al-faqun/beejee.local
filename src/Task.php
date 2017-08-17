@@ -44,7 +44,8 @@ class Task
     }
     
     /**
-     * @param mixed $userid
+     * @param $userid
+     * @throws \Exception
      */
     public function setUserid($userid)
     {

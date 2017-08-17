@@ -1,4 +1,15 @@
-function previewTask(previewClass, fileInputID, imgFromCanvasID, previewImgID, formID, emailID, textID, hiddenBlobID) {
+/**
+ * Loads preview of picture and transports info from input form to it's designed view
+ * @param previewClass
+ * @param fileInputID
+ * @param resizedImgID
+ * @param previewImgID
+ * @param formID
+ * @param emailID
+ * @param textID
+ * @param hiddenBlobID
+ */
+function previewTask(previewClass, fileInputID, resizedImgID, previewImgID, formID, emailID, textID, hiddenBlobID) {
     //this callback is executed after asynch call inside previewImage()
     var after = function (storageImg) {
         //create preview of post
@@ -19,11 +30,18 @@ function previewTask(previewClass, fileInputID, imgFromCanvasID, previewImgID, f
         preview.style.display = 'block';
     };
     //load preview of picture
-    previewImage(fileInputID, imgFromCanvasID, hiddenBlobID, after);
+    previewImage(fileInputID, resizedImgID, hiddenBlobID, after);
 
 }
 
-function previewImage(fileInputID, imgFromCanvasID, hiddenBlobID, after) {
+/**
+ *
+ * @param fileInputID
+ * @param resizedImgID
+ * @param hiddenBlobID
+ * @param after
+ */
+function previewImage(fileInputID, resizedImgID, hiddenBlobID, after) {
     // select from an input element
     var file = document.getElementById(fileInputID).files[0];
     if (file === undefined) {
@@ -31,19 +49,20 @@ function previewImage(fileInputID, imgFromCanvasID, hiddenBlobID, after) {
     } else {
         //check mime
         if (file.type.match(/image.(png|jpg|jpeg|gif)/)) {
-            //get into img
-            var ret;
+            //non-displayed img for canvas
             var tempImg = document.createElement('img');
-            var storageImg = document.getElementById(imgFromCanvasID);
+            //displayed img for storing resized image
+            var storageImg = document.getElementById(resizedImgID);
             var URL = window.URL || window.webkitURL;
             tempImg.src = URL.createObjectURL(file);
+            //when image is fully loaded from file, resize it
             tempImg.onload = function () {
                 //resize
                 var MAX_WIDTH = 320;
                 var MAX_HEIGHT = 240;
                 var width = tempImg.width;
                 var height = tempImg.height;
-                //resize so that BOTH dimensions always equals or less than max
+                //resize so that BOTH dimensions always equal or less than max
                 //to do so, we need to know, which dim is bigger according to it's maximum
                 var a = width / MAX_WIDTH, b = height / MAX_HEIGHT;
                 if (a >= b) {
@@ -53,7 +72,7 @@ function previewImage(fileInputID, imgFromCanvasID, hiddenBlobID, after) {
                     width = width / b;
                     height = height / b;
                 }
-                //draw in canvas
+                //draw in non-displayed canvas
                 var canvas = document.createElement("canvas");
                 //class for later replace
                 canvas.width = width;
@@ -63,10 +82,11 @@ function previewImage(fileInputID, imgFromCanvasID, hiddenBlobID, after) {
                 var imageBase64 = canvas.toDataURL("image/png");
                 var hiddenBlob = document.getElementById(hiddenBlobID);
                 storageImg.src = imageBase64;
+                //save image base 64 into hidden input
                 hiddenBlob.value = imageBase64;
+                //after image is resized, perform other operations with it
                 after(storageImg);
             };
-
         } else {
             alert('Прикрепленный файл должен быть картинкой: png, jpg, gif.')
         }
@@ -81,6 +101,13 @@ function closePreview(previewClass, formID) {
     preview.style.display = 'none';
 }
 
+/**
+ * Load preview image and send form
+ * @param formID
+ * @param fileInputID
+ * @param imgFromCanvasID
+ * @param hiddenBlobID
+ */
 function upload(formID, fileInputID, imgFromCanvasID, hiddenBlobID) {
     //this callback is executed after asynch call inside previewImage()
     var after = function (storageImg) {

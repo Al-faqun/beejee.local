@@ -17,13 +17,25 @@ use BeeJee\Input\NewTaskValidator;
 use BeeJee\LoginManager;
 use BeeJee\Views\TaskView;
 
+/**
+ * Class TaskController
+ * @package BeeJee\Controllers
+ */
 class TaskController extends PageController
 {
+    //главная папка проекта
     private $root;
+    //публичная папка проекта
     private $public;
     private $pdo;
     private $errors;
     
+    /**
+     * TaskController constructor.
+     * @param $root
+     * @param $public
+     * @param $pdo
+     */
     function __construct($root, $public, $pdo)
     {
         parent::__construct();
@@ -32,17 +44,31 @@ class TaskController extends PageController
         $this->pdo = $pdo;
     }
     
+    /**
+     * Основное действие контроллера
+     */
     function start()
     {
+        //выполняем все запланированные вне контроллера действия с input массивами
         $this->execute();
-        $this->regPage($this->root, $this->public, $this->pdo);
+        //формируем и отображаем страницу
+        $this->newTaskPage($this->root, $this->public, $this->pdo);
     }
     
-    protected function regPage($root, $public, \PDO $pdo)
+    /**
+     * @param $root
+     * @param $public
+     * @param \PDO $pdo
+     */
+    protected function newTaskPage($root, $public, \PDO $pdo)
     {
+        //маппер таблицы Users
         $userMapper = new UserMapper($pdo);
+        //маппер таблицы Tasks
         $taskMapper = new TaskMapper($pdo);
+        //класс валидации данных для таблицы Tasks
         $validator = new NewTaskValidator();
+        //менеджер лог-инов
         $loginMan  = new LoginManager($userMapper, $pdo);
         //проверяем логин пользователя (если есть)
         $authorized = $loginMan->isLogged();
@@ -73,7 +99,7 @@ class TaskController extends PageController
                 $dataBack['task_text'] = $_POST['task_text'];
             }
         }
-        
+        //отображаем страницу
         $view = new TaskView(FileSystem::append([$root, '/templates']));
         $view->render([
             'errors'     => $this->errors,
@@ -84,6 +110,14 @@ class TaskController extends PageController
         ]);
     }
     
+    /**
+     * Сохранить картинку в виде файла из base64
+     * @param $root
+     * @param $dir
+     * @param $imageBase64
+     * @return string
+     * @throws \Exception
+     */
     protected function saveImage($root, $dir, $imageBase64)
     {
         $imageLoader = new ImageLoaderBase64(

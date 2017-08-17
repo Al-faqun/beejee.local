@@ -12,9 +12,15 @@ use BeeJee\Views\ListView;
 
 class ListController extends PageController
 {
+    //главная папка проекта
     private $root;
     private $pdo;
     
+    /**
+     * ListController constructor.
+     * @param string $root
+     * @param \PDO $pdo
+     */
     function __construct($root, $pdo)
     {
         parent::__construct();
@@ -22,13 +28,21 @@ class ListController extends PageController
         $this->pdo = $pdo;
     }
     
+    /**
+     *  Выполнение основной задачи контроллера
+     */
     function start()
     {
         $this->execute();
-        $this->listPage($this->root, $this->pdo);
+        $this->listPage($this->pdo);
     }
     
-    protected function listPage($root, \PDO $pdo)
+    /**
+     * Создание и отображение страницы
+     * @param \PDO $pdo
+     * @throws \Exception
+     */
+    protected function listPage(\PDO $pdo)
     {
         $mapper    = new TaskMapper($pdo);
         $validator = new SearchQueryValidator();
@@ -75,6 +89,11 @@ class ListController extends PageController
         ]);
     }
     
+    /**
+     * Превращаем относительные пути к картинкам в абсолютные для использования в шаблонах
+     * @param $tasks
+     * @return mixed
+     */
     private function setImagePathFull($tasks)
     {
         if (is_array($tasks) AND !empty($tasks)) {

@@ -9,11 +9,21 @@ use BeeJee\Input\NewTaskValidator;
 use BeeJee\LoginManager;
 use BeeJee\Views\EditView;
 
+/**
+ * Class EditController
+ * @package BeeJee\Controllers
+ */
 class EditController extends PageController
 {
+    //корень сайта
     private $root;
     private $pdo;
     
+    /**
+     * EditController constructor.
+     * @param $root
+     * @param $pdo
+     */
     function __construct($root, $pdo)
     {
         parent::__construct();
@@ -21,6 +31,9 @@ class EditController extends PageController
         $this->pdo = $pdo;
     }
     
+    /**
+     * Основные задачи контроллера
+     */
     function start()
     {
         //для редактирования задачи
@@ -53,6 +66,12 @@ class EditController extends PageController
         }
     }
     
+    /**
+     * Меняем статус задачи, если соответствующий ключ есть в инпуте
+     * @param array $input
+     * @param TaskMapper $taskmapper
+     * @return bool
+     */
     function checkAndChangeStatus($input, TaskMapper $taskmapper)
     {
         $result = false;
@@ -64,6 +83,12 @@ class EditController extends PageController
         return $result;
     }
     
+    /**
+     * Проверяем, указан ли айди задачи перед редактированием
+     * @param array $input
+     * @return int ID of task
+     * @throws \Exception
+     */
     function checkTaskID($input)
     {
         if (array_key_exists('task_id', $input)) {
@@ -71,6 +96,12 @@ class EditController extends PageController
         } else throw new \Exception('ID задачи не указан перед редактированием. Аборт.');
     }
     
+    /**
+     * Проверяем, отослан ли текст для редактирования, при необходимости его заменяем
+     * @param array $input
+     * @param TaskMapper $taskmapper
+     * @return bool
+     */
     function checkAndChangeNewText($input, TaskMapper $taskmapper )
     {
         //если отослана форма редактирования вместе с ID задачи
