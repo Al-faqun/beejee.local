@@ -1,9 +1,9 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 
-$dbname = 'test';
-$username = 'root';
-$password = 'VtVgfhfif354';
+$dbname = your  db name;
+$username = your name;
+$password = your pass;
 $dsn = "mysql:host=localhost;dbname={$dbname};charset=utf8";
 $opt = array(
     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
